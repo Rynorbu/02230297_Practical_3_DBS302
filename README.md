@@ -233,10 +233,6 @@ db.orders.insertMany([
 - The items are embedded inside the order collection because the items always belongs to the order. The order always have an items. This avoids extra database queries.
 - The ProductID is a reference to the product collection because multiple orders can use the same product.
 
-#### **Verify All Data**
-
-We can verify the 
-
 ### Aggregation Framework Queries
 
 The Aggregation in MongoDB process the data in stages. The Aggregation framework works in step by step, where each step takes the result from the previous stage and then process it and finally passes it to the next one.  It is the process that gathers information from multiple document and then groups them together to perform calculations like findings sum or an average.
@@ -351,7 +347,7 @@ db.orders.aggregate([
 ])
 ```
 
-Result:
+**Result:**
 
 ![image.png](image%2014.png)
 
@@ -402,17 +398,14 @@ I have create 4 differnt indexes.
 
 | **Index Name** | **Use Case** |
 | --- | --- |
-| **idx_orders_user_crea
-tedAt** | It fetches a user’s recent order sorted by date.  |
-| **idx_orders_status_cr
-eatedAt** | It filters only paid orders within a specific date range and is used to calculate daily sales. |
-| **idx_products_categor
-y_price** | It shows products from a specific category and sorts them by price so they are easy to browse. |
+| **idx_orders_user_createdAt** | It fetches a user’s recent order sorted by date.  |
+| **idx_orders_status_createdAt** | It filters only paid orders within a specific date range and is used to calculate daily sales. |
+| **idx_products_category_price** | It shows products from a specific category and sorts them by price so they are easy to browse. |
 | **idx_products_text** | It search for products using text and shows result based on relevant scores. |
 
 **Index 1  User Orders by Date**
 
-Usage:
+**Usage:**
 
 - Find the recent order of a specific user
 
@@ -438,11 +431,11 @@ db.orders.createIndex(
 
 **Index 2 Orders by Status, Date, Amount (ESR)**
 
-Usage:
+**Usage:**
 
 - Find the daily revenue report and sales dashboard
 
-Query
+**Query**
 
 ```bash
 db.orders.createIndex(
@@ -451,7 +444,7 @@ db.orders.createIndex(
 )
 ```
 
-Result:
+**Result:**
 
 ![image.png](image%2019.png)
 
@@ -459,7 +452,10 @@ Result:
 
 **Index 3 Products by Category and Price**
 
-Query:
+**Usage:**
+- Used to browse products in a category and sort them by price.
+
+**Query:**
 
 ```bash
 db.products.createIndex(
@@ -468,17 +464,17 @@ db.products.createIndex(
 )
 ```
 
-Result:
+**Result:**
 
 ![image.png](image%2020.png)
 
 **Index 4 Full-Text Search Index**
 
-Usage:
+**Usage:**
 
-- 
+- Used as a search bar to find products easily.
 
-Query
+**Query**
 
 ```bash
 db.products.createIndex(
@@ -487,11 +483,11 @@ db.products.createIndex(
 )
 ```
 
-Result
+**Result**
 
 ![image.png](image%2021.png)
 
-Test the text search:
+**Testing the text search:**
 
 ```bash
 db.products.find(
@@ -502,7 +498,7 @@ db.products.find(
 
 ![image.png](image%2022.png)
 
-Verify All Indexes
+**Verify All Indexes**
 
 ```bash
 ecommerce> db.orders.getIndexes()
@@ -522,7 +518,7 @@ This will be done by the **explain()** function. The explain() function shows ho
 
 This is running the explain() function before creating an index.
 
-Query:
+**Query:**
 
 The query is used to find all the orders that have status ”PAID” and was created on or after April 19,  2026. Then after filtering, it sorts the result in descending order. The explain() function is used to show how MongoDB runs the query and how efficient it is.
 
