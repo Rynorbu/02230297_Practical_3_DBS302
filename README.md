@@ -448,8 +448,6 @@ db.orders.createIndex(
 
 ![image.png](image%2019.png)
 
-**ESR Rule:** Put **E**quality fields first (`status`), then **S**ort fields (`createdAt`), then **R**ange fields (`grandTotal`). This order maximises index usage.
-
 **Index 3 Products by Category and Price**
 
 **Usage:**
@@ -539,7 +537,7 @@ Results:
 Findings:
 
 - I have found out that the MongoDB uses the **COLLSCAN**(**Collection Scan**). This means that it scans every document to find the matching data. This approach is not efficient because it scans through every document in the collection, if the dataset is large then it would take more time which is inefficient.
-- The **totalDocsExamined** is only 2 in my case. That means that only 2 document is scanned or checked. I have only created 2 document in the order collection but if there are more document then COLLSCAN will be slow because it have to check every document inside the collection.
+- The **totalDocsExamined** is only 22 in my case. That means that the entire 22 document is scanned or checked. If there are more document then COLLSCAN will be slow because it have to check every document inside the collection.
 
 **AFTER the index exists**
 
@@ -563,7 +561,7 @@ db.orders.find(
 
 Findings:
 
-- Here the MongoDB uses the IXSCAN(Index scan).
+- Here the MongoDB uses the IXSCAN(Index scan). IXSCAN makes the query faster because it checks only the relevant document instead of scanning all the collections. The totalDocsExamined is 13, that shows that only a small number of document were processed compared to the COLLSCAN, improving the performance. 
 
 After comparing the results I understood that moving from a COLLSCAN to an IXSCAN shows the efficiency of the data retrieval. It shows that the indexes doesn't change the correctness of the result but it shows the efficiency of data retrieval, improving the overall performance of the database. Example, in real system there will be millions of data, so by using indexes is important because it improves the overall performance as it keeps the application fast and prevent delay or timeout.
 
